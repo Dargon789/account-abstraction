@@ -1,6 +1,8 @@
 import {
   arrayify,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   defaultAbiCoder, hexConcat, hexDataLength,
   hexDataSlice, hexlify,
   keccak256
@@ -8,11 +10,21 @@ import {
 import { BigNumber, Contract, Signer, Wallet } from 'ethers'
 import { TypedDataSigner, TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   defaultAbiCoder,
   hexDataSlice,
   keccak256,
 } from "ethers/lib/utils";
 import { BigNumber, Contract, Signer, Wallet } from "ethers";
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 import {
   AddressZero,
@@ -21,9 +33,19 @@ import {
   packAccountGasLimits,
   packPaymasterData,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   rethrow
 } from './testutils'
 import { ecsign, toRpcSig } from 'ethereumjs-util'
+=======
+  rethrow,
+} from "./testutils";
+>>>>>>> Stashed changes
+=======
+  rethrow,
+} from "./testutils";
+>>>>>>> Stashed changes
 =======
   rethrow,
 } from "./testutils";
@@ -41,6 +63,8 @@ import { TransactionRequest } from "@ethersproject/abstract-provider";
 import EntryPointSimulationsJson from "../artifacts/contracts/core/EntryPointSimulations.sol/EntryPointSimulations.json";
 import { ethers } from "hardhat";
 import { IEntryPointSimulations } from "../typechain/contracts/core/EntryPointSimulations";
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 <<<<<<< Updated upstream
 // Matched to domain name, version from EntryPoint.sol:
@@ -57,6 +81,12 @@ export function packUserOp (userOp: UserOperation): PackedUserOperation {
   const gasFees = packAccountGasLimits(userOp.maxPriorityFeePerGas, userOp.maxFeePerGas)
   let paymasterAndData = '0x'
 =======
+=======
+
+>>>>>>> Stashed changes
+=======
+
+>>>>>>> Stashed changes
 export function packUserOp(userOp: UserOperation): PackedUserOperation {
   const accountGasLimits = packAccountGasLimits(
     userOp.verificationGasLimit,
@@ -67,6 +97,12 @@ export function packUserOp(userOp: UserOperation): PackedUserOperation {
     userOp.maxFeePerGas,
   );
   let paymasterAndData = "0x";
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   if (userOp.paymaster?.length >= 20 && userOp.paymaster !== AddressZero) {
     paymasterAndData = packPaymasterData(
@@ -95,6 +131,8 @@ export function encodeUserOp(
   const packedUserOp = packUserOp(userOp);
   if (forSignature) {
     return defaultAbiCoder.encode(
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
       ['bytes32',
         'address', 'uint256', 'bytes32', 'bytes32',
@@ -203,6 +241,110 @@ export function getUserOpHashWithEip7702 (op: UserOperation, entryPoint: string,
   }
 }
 
+=======
+      [
+        "address",
+        "uint256",
+        "bytes32",
+        "bytes32",
+        "bytes32",
+        "uint256",
+        "bytes32",
+        "bytes32",
+      ],
+      [
+        packedUserOp.sender,
+        packedUserOp.nonce,
+        keccak256(packedUserOp.initCode),
+        keccak256(packedUserOp.callData),
+        packedUserOp.accountGasLimits,
+        packedUserOp.preVerificationGas,
+        packedUserOp.gasFees,
+        keccak256(packedUserOp.paymasterAndData),
+      ],
+    );
+  } else {
+    // for the purpose of calculating gas cost encode also signature (and no keccak of bytes)
+    return defaultAbiCoder.encode(
+      [
+        "address",
+        "uint256",
+        "bytes",
+        "bytes",
+        "bytes32",
+        "uint256",
+        "bytes32",
+        "bytes",
+        "bytes",
+      ],
+      [
+        packedUserOp.sender,
+        packedUserOp.nonce,
+        packedUserOp.initCode,
+        packedUserOp.callData,
+        packedUserOp.accountGasLimits,
+        packedUserOp.preVerificationGas,
+        packedUserOp.gasFees,
+        packedUserOp.paymasterAndData,
+        packedUserOp.signature,
+      ],
+    );
+  }
+}
+
+>>>>>>> Stashed changes
+=======
+      [
+        "address",
+        "uint256",
+        "bytes32",
+        "bytes32",
+        "bytes32",
+        "uint256",
+        "bytes32",
+        "bytes32",
+      ],
+      [
+        packedUserOp.sender,
+        packedUserOp.nonce,
+        keccak256(packedUserOp.initCode),
+        keccak256(packedUserOp.callData),
+        packedUserOp.accountGasLimits,
+        packedUserOp.preVerificationGas,
+        packedUserOp.gasFees,
+        keccak256(packedUserOp.paymasterAndData),
+      ],
+    );
+  } else {
+    // for the purpose of calculating gas cost encode also signature (and no keccak of bytes)
+    return defaultAbiCoder.encode(
+      [
+        "address",
+        "uint256",
+        "bytes",
+        "bytes",
+        "bytes32",
+        "uint256",
+        "bytes32",
+        "bytes",
+        "bytes",
+      ],
+      [
+        packedUserOp.sender,
+        packedUserOp.nonce,
+        packedUserOp.initCode,
+        packedUserOp.callData,
+        packedUserOp.accountGasLimits,
+        packedUserOp.preVerificationGas,
+        packedUserOp.gasFees,
+        packedUserOp.paymasterAndData,
+        packedUserOp.signature,
+      ],
+    );
+  }
+}
+
+>>>>>>> Stashed changes
 export function getUserOpHash(
   op: UserOperation,
   entryPoint: string,
@@ -214,6 +356,12 @@ export function getUserOpHash(
     [userOpHash, entryPoint, chainId],
   );
   return keccak256(enc);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -235,6 +383,8 @@ export const DefaultsForUserOp: UserOperation = {
 };
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export function signUserOp (op: UserOperation, signer: Wallet, entryPoint: string, chainId: number, eip7702delegate?: string): UserOperation {
   let message
   if (isEip7702UserOp(op)) {
@@ -251,6 +401,10 @@ export function signUserOp (op: UserOperation, signer: Wallet, entryPoint: strin
   // (but without "async")
   const signedMessage1 = toRpcSig(sig.v, sig.r, sig.s)
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 export function signUserOp(
   op: UserOperation,
   signer: Wallet,
@@ -270,6 +424,12 @@ export function signUserOp(
   // that's equivalent of:  await signer.signMessage(message);
   // (but without "async"
   const signedMessage1 = toRpcSig(sig.v, sig.r, sig.s);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   return {
     ...op,
@@ -292,6 +452,8 @@ export function fillUserOpDefaults(
   }
   const filled = { ...defaults, ...partial };
   return filled;
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 
 // Options for fill/sign UserOperations functions
@@ -301,6 +463,10 @@ export interface FillUserOpOptions {
   // eip7702 delegate. only needed if this is the creation UserOp (that is, a one that runs with the eip7702 authorization tuple).
   // if the option is missing (and this is an EIP-7702 UserOp), the "fill" functions will read the value from the account's address.
   eip7702delegate?: string
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 }
 
 // helper to fill structure:
@@ -315,6 +481,8 @@ export interface FillUserOpOptions {
 // sender - only in case of construction: fill sender from initCode.
 // callGasLimit: VERY crude estimation (by estimating call to account, and add rough entryPoint overhead
 // verificationGasLimit: hard-code default at 100k. should add "create2" cost
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 export async function fillUserOp (op: Partial<UserOperation>, entryPoint?: EntryPoint, options?: FillUserOpOptions): Promise<UserOperation> {
   const getNonceFunction = options?.getNonceFunction ?? 'getNonce'
@@ -364,6 +532,10 @@ export async function fillUserOp (op: Partial<UserOperation>, entryPoint?: Entry
         op1.verificationGasLimit = BigNumber.from(DefaultsForUserOp.verificationGasLimit).add(initEstimate)
       }
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 export async function fillUserOp(
   op: Partial<UserOperation>,
   entryPoint?: EntryPoint,
@@ -402,6 +574,12 @@ export async function fillUserOp(
       op1.verificationGasLimit = BigNumber.from(
         DefaultsForUserOp.verificationGasLimit,
       ).add(initEstimate);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
   }
@@ -460,6 +638,8 @@ export async function fillUserOp(
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export async function fillAndPack (op: Partial<UserOperation>, entryPoint?: EntryPoint, options?: FillUserOpOptions): Promise<PackedUserOperation> {
   return packUserOp(await fillUserOp(op, entryPoint, options))
 }
@@ -504,12 +684,58 @@ export async function fillAndSign(
   const chainId = await provider!.getNetwork().then((net) => net.chainId);
   const message = arrayify(getUserOpHash(op2, entryPoint!.address, chainId));
 
+=======
+export async function fillAndPack(
+  op: Partial<UserOperation>,
+  entryPoint?: EntryPoint,
+  getNonceFunction = "getNonce",
+): Promise<PackedUserOperation> {
+  return packUserOp(await fillUserOp(op, entryPoint, getNonceFunction));
+}
+
+export async function fillAndSign(
+  op: Partial<UserOperation>,
+  signer: Wallet | Signer,
+  entryPoint?: EntryPoint,
+  getNonceFunction = "getNonce",
+): Promise<UserOperation> {
+  const provider = entryPoint?.provider;
+  const op2 = await fillUserOp(op, entryPoint, getNonceFunction);
+
+  const chainId = await provider!.getNetwork().then((net) => net.chainId);
+  const message = arrayify(getUserOpHash(op2, entryPoint!.address, chainId));
+
+>>>>>>> Stashed changes
+=======
+export async function fillAndPack(
+  op: Partial<UserOperation>,
+  entryPoint?: EntryPoint,
+  getNonceFunction = "getNonce",
+): Promise<PackedUserOperation> {
+  return packUserOp(await fillUserOp(op, entryPoint, getNonceFunction));
+}
+
+export async function fillAndSign(
+  op: Partial<UserOperation>,
+  signer: Wallet | Signer,
+  entryPoint?: EntryPoint,
+  getNonceFunction = "getNonce",
+): Promise<UserOperation> {
+  const provider = entryPoint?.provider;
+  const op2 = await fillUserOp(op, entryPoint, getNonceFunction);
+
+  const chainId = await provider!.getNetwork().then((net) => net.chainId);
+  const message = arrayify(getUserOpHash(op2, entryPoint!.address, chainId));
+
+>>>>>>> Stashed changes
   let signature;
   try {
     signature = await signer.signMessage(message);
   } catch (err: any) {
     // attempt to use 'eth_sign' instead of 'personal_sign' which is not supported by Foundry Anvil
     signature = await (signer as any)._legacySignMessage(message);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
   }
 }
@@ -589,6 +815,20 @@ export async function fillSignAndPack (op: Partial<UserOperation>, signer: Walle
   const filledAndSignedOp = await fillAndSign(op, signer, entryPoint, options)
   return packUserOp(filledAndSignedOp)
 =======
+=======
+=======
+>>>>>>> Stashed changes
+  }
+  return {
+    ...op2,
+    signature,
+  };
+}
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 export async function fillSignAndPack(
   op: Partial<UserOperation>,
   signer: Wallet | Signer,
@@ -602,6 +842,12 @@ export async function fillSignAndPack(
     getNonceFunction,
   );
   return packUserOp(filledAndSignedOp);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 

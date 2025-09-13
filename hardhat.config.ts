@@ -1,14 +1,26 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import '@nomiclabs/hardhat-waffle'
 import '@typechain/hardhat'
 import { HardhatUserConfig, task } from 'hardhat/config'
 import 'hardhat-deploy'
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import { HardhatUserConfig, task } from "hardhat/config";
 import "hardhat-deploy";
 import "@nomiclabs/hardhat-etherscan";
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 import "solidity-coverage";
@@ -16,8 +28,20 @@ import "solidity-coverage";
 import * as fs from "fs";
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 const SALT = '0x0a59dbff790c23c976a548690c27297883cc66b4c67024f9117b0238995e35e9'
 process.env.SALT = process.env.SALT ?? SALT
+=======
+const SALT =
+  "0x90d8084deab30c2a37c45e8d47f49f2f7965183cb6990a98943ef94940681de3";
+process.env.SALT = process.env.SALT ?? SALT;
+>>>>>>> Stashed changes
+=======
+const SALT =
+  "0x90d8084deab30c2a37c45e8d47f49f2f7965183cb6990a98943ef94940681de3";
+process.env.SALT = process.env.SALT ?? SALT;
+>>>>>>> Stashed changes
 =======
 const SALT =
   "0x90d8084deab30c2a37c45e8d47f49f2f7965183cb6990a98943ef94940681de3";
@@ -59,6 +83,12 @@ const optimizedCompilerSettings = {
 =======
 const optimizedComilerSettings = {
   version: "0.8.23",
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   settings: {
     evmVersion: 'cancun',
@@ -72,6 +102,8 @@ const optimizedComilerSettings = {
 
 const config: HardhatUserConfig = {
   solidity: {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     compilers: [{
       version: '0.8.28',
@@ -100,10 +132,40 @@ const config: HardhatUserConfig = {
       "contracts/samples/SimpleAccount.sol": optimizedComilerSettings,
     },
 >>>>>>> Stashed changes
+=======
+    compilers: [
+      {
+        version: "0.8.23",
+        settings: {
+          optimizer: { enabled: true, runs: 1000000 },
+        },
+      },
+    ],
+    overrides: {
+      "contracts/core/EntryPoint.sol": optimizedComilerSettings,
+      "contracts/samples/SimpleAccount.sol": optimizedComilerSettings,
+    },
+>>>>>>> Stashed changes
+=======
+    compilers: [
+      {
+        version: "0.8.23",
+        settings: {
+          optimizer: { enabled: true, runs: 1000000 },
+        },
+      },
+    ],
+    overrides: {
+      "contracts/core/EntryPoint.sol": optimizedComilerSettings,
+      "contracts/samples/SimpleAccount.sol": optimizedComilerSettings,
+    },
+>>>>>>> Stashed changes
   },
   networks: {
     dev: { url: "http://localhost:8545" },
     // github action starts localgeth service, for gas calculations
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     localgeth: { url: 'http://localgeth:8545' },
     sepolia: getNetwork('sepolia'),
@@ -120,6 +182,22 @@ const config: HardhatUserConfig = {
     proxy: getNetwork1("http://localhost:8545"),
   },
   mocha: {
+=======
+    localgeth: { url: "http://localgeth:8545" },
+    goerli: getNetwork("goerli"),
+    sepolia: getNetwork("sepolia"),
+    proxy: getNetwork1("http://localhost:8545"),
+  },
+  mocha: {
+>>>>>>> Stashed changes
+=======
+    localgeth: { url: "http://localgeth:8545" },
+    goerli: getNetwork("goerli"),
+    sepolia: getNetwork("sepolia"),
+    proxy: getNetwork1("http://localhost:8545"),
+  },
+  mocha: {
+>>>>>>> Stashed changes
     timeout: 10000,
   },
   // @ts-ignore
@@ -127,6 +205,12 @@ const config: HardhatUserConfig = {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
 };
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 // coverage chokes on the "compilers" settings

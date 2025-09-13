@@ -10,6 +10,8 @@ import {
 } from "../test/testutils";
 import {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   EntryPoint, EntryPoint__factory, SimpleAccountFactory,
   SimpleAccountFactory__factory, SimpleAccount__factory
 } from '../typechain'
@@ -59,16 +61,80 @@ const junkWallet = Wallet.fromMnemonic('test test test test test test test test 
 const globalSigner = new Wallet(junkWallet.privateKey, provider)
 let lastGasUsed: number
 =======
+=======
+  EntryPoint,
+  EntryPoint__factory,
+  SimpleAccountFactory,
+  SimpleAccountFactory__factory,
+  SimpleAccount__factory,
+} from "../typechain";
+import { BigNumberish, Wallet } from "ethers";
+import hre from "hardhat";
+import {
+  fillSignAndPack,
+  fillUserOp,
+  packUserOp,
+  signUserOp,
+} from "../test/UserOp";
+import { TransactionReceipt } from "@ethersproject/abstract-provider";
+import { table, TableUserConfig } from "table";
+import { Create2Factory } from "../src/Create2Factory";
+import * as fs from "fs";
+import { SimpleAccountInterface } from "../typechain/contracts/samples/SimpleAccount";
+import { PackedUserOperation } from "../test/UserOperation";
+import { expect } from "chai";
+
+const gasCheckerLogFile = "./reports/gas-checker.txt";
+
+>>>>>>> Stashed changes
 const ethers = hre.ethers;
 const provider = hre.ethers.provider;
 let ethersSigner = provider.getSigner();
 let lastGasUsed: number;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 const minDepositOrBalance = parseEther("0.1");
 
 const getBalance = hre.ethers.provider.getBalance;
 
+=======
+  EntryPoint,
+  EntryPoint__factory,
+  SimpleAccountFactory,
+  SimpleAccountFactory__factory,
+  SimpleAccount__factory,
+} from "../typechain";
+import { BigNumberish, Wallet } from "ethers";
+import hre from "hardhat";
+import {
+  fillSignAndPack,
+  fillUserOp,
+  packUserOp,
+  signUserOp,
+} from "../test/UserOp";
+import { TransactionReceipt } from "@ethersproject/abstract-provider";
+import { table, TableUserConfig } from "table";
+import { Create2Factory } from "../src/Create2Factory";
+import * as fs from "fs";
+import { SimpleAccountInterface } from "../typechain/contracts/samples/SimpleAccount";
+import { PackedUserOperation } from "../test/UserOperation";
+import { expect } from "chai";
+
+const gasCheckerLogFile = "./reports/gas-checker.txt";
+
+const ethers = hre.ethers;
+const provider = hre.ethers.provider;
+let ethersSigner = provider.getSigner();
+let lastGasUsed: number;
+
+const minDepositOrBalance = parseEther("0.1");
+
+const getBalance = hre.ethers.provider.getBalance;
+
+>>>>>>> Stashed changes
 function range(n: number): number[] {
   return Array(n)
     .fill(0)
@@ -132,8 +198,16 @@ export class GasChecker {
   accountOwner: Wallet;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   accountInterface: SimpleAccountInterface
   private locked: boolean
+=======
+  accountInterface: SimpleAccountInterface;
+>>>>>>> Stashed changes
+=======
+  accountInterface: SimpleAccountInterface;
+>>>>>>> Stashed changes
 =======
   accountInterface: SimpleAccountInterface;
 >>>>>>> Stashed changes
@@ -178,11 +252,17 @@ export class GasChecker {
       hexConcat([
         SimpleAccountFactory__factory.bytecode,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         defaultAbiCoder.encode(['address'], [this.entryPoint().address])
       ]), 0, 2885201)
     debug('factaddr', factoryAddress)
     const fact = SimpleAccountFactory__factory.connect(factoryAddress, globalSigner)
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         defaultAbiCoder.encode(["address"], [this.entryPoint().address]),
       ]),
       0,
@@ -193,6 +273,12 @@ export class GasChecker {
       factoryAddress,
       ethersSigner,
     );
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     // create accounts
     const creationOps: PackedUserOperation[] = [];
@@ -217,12 +303,20 @@ export class GasChecker {
         const op = signUserOp(
           await fillUserOp({
             sender: addr,
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             nonce: 0,
             callGasLimit: 30000,
             verificationGasLimit: 1000000,
             // paymasterAndData: paymaster,
             preVerificationGas: 1,
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             maxFeePerGas: 0
           }), this.accountOwner, this.entryPoint().address, await provider.getNetwork().then(net => net.chainId))
@@ -244,11 +338,41 @@ export class GasChecker {
         this.createdAccounts.add(addr);
       }
 
+=======
+            maxFeePerGas: 0,
+          }),
+          this.accountOwner,
+          this.entryPoint().address,
+          await provider.getNetwork().then((net) => net.chainId),
+        );
+        creationOps.push(packUserOp(op));
+        this.createdAccounts.add(addr);
+      }
+
+>>>>>>> Stashed changes
+=======
+            maxFeePerGas: 0,
+          }),
+          this.accountOwner,
+          this.entryPoint().address,
+          await provider.getNetwork().then((net) => net.chainId),
+        );
+        creationOps.push(packUserOp(op));
+        this.createdAccounts.add(addr);
+      }
+
+>>>>>>> Stashed changes
       this.accounts[addr] = this.accountOwner;
       // deploy if not already deployed.
       await fact.createAccount(this.accountOwner.address, salt);
       const accountBalance =
         await GasCheckCollector.inst.entryPoint.balanceOf(addr);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       if (accountBalance.lte(minDepositOrBalance)) {
         await GasCheckCollector.inst.entryPoint.depositTo(addr, {
@@ -257,7 +381,15 @@ export class GasChecker {
       }
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     await this.entryPoint().handleOps(creationOps, globalSigner.getAddress())
+=======
+    await this.entryPoint().handleOps(creationOps, ethersSigner.getAddress());
+>>>>>>> Stashed changes
+=======
+    await this.entryPoint().handleOps(creationOps, ethersSigner.getAddress());
+>>>>>>> Stashed changes
 =======
     await this.entryPoint().handleOps(creationOps, ethersSigner.getAddress());
 >>>>>>> Stashed changes
@@ -286,7 +418,15 @@ export class GasChecker {
     } as GasTestInfo;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     debug('== running test count=', info.count)
+=======
+    console.debug("== running test count=", info.count);
+>>>>>>> Stashed changes
+=======
+    console.debug("== running test count=", info.count);
+>>>>>>> Stashed changes
 =======
     console.debug("== running test count=", info.count);
 >>>>>>> Stashed changes
@@ -302,6 +442,8 @@ export class GasChecker {
           const paymaster = info.paymaster;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         let { dest, destValue, destCallData } = info
         if (dest === 'self') {
           dest = account
@@ -312,6 +454,10 @@ export class GasChecker {
             debug('dest replenish', dest)
             await globalSigner.sendTransaction({ to: dest, value: 1 })
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
           let { dest, destValue, destCallData } = info;
           if (dest === "self") {
             dest = account;
@@ -322,6 +468,12 @@ export class GasChecker {
               console.log("dest replenish", dest);
               await ethersSigner.sendTransaction({ to: dest, value: 1 });
             }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
           }
           const accountExecFromEntryPoint = this.accountExec(
@@ -329,6 +481,8 @@ export class GasChecker {
             destValue,
             destCallData,
           );
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
           // remove the "dest" from the key to the saved estimations
           // so we have a single estimation per method.
@@ -474,6 +628,84 @@ export class GasChecker {
       throw new Error(`${e.event}(${decodeRevertReason(e.args?.revertReason)})`)
     })
 =======
+=======
+
+          // remove the "dest" from the key to the saved estimations
+          // so we have a single estimation per method.
+          const estimateGasKey = this.accountExec(
+            AddressZero,
+            destValue,
+            destCallData,
+          );
+
+          let est = gasEstimatePerExec[estimateGasKey];
+          // technically, each UserOp needs estimate - but we know they are all the same for each test.
+          if (est == null) {
+            const accountEst = (
+              await ethers.provider.estimateGas({
+                from: GasCheckCollector.inst.entryPoint.address,
+                to: account,
+                data: accountExecFromEntryPoint,
+              })
+            ).toNumber();
+            est = gasEstimatePerExec[estimateGasKey] = {
+              accountEst,
+              title: info.title,
+            };
+          }
+          // console.debug('== account est=', accountEst.toString())
+          accountEst = est.accountEst;
+          const op = await fillSignAndPack(
+            {
+              sender: account,
+              callData: accountExecFromEntryPoint,
+              maxPriorityFeePerGas: info.gasPrice,
+              maxFeePerGas: info.gasPrice,
+              callGasLimit: accountEst,
+              verificationGasLimit: 1000000,
+              paymaster: paymaster,
+              paymasterVerificationGasLimit: 50000,
+              paymasterPostOpGasLimit: 50000,
+              preVerificationGas: 1,
+            },
+            accountOwner,
+            GasCheckCollector.inst.entryPoint,
+          );
+          // const packed = packUserOp(op, false)
+          // console.log('== packed cost=', callDataCost(packed), packed)
+          return op;
+        }),
+    );
+
+    const txdata =
+      GasCheckCollector.inst.entryPoint.interface.encodeFunctionData(
+        "handleOps",
+        [userOps, info.beneficiary],
+      );
+    console.log("=== encoded data=", txdata.length);
+    const gasEst = await GasCheckCollector.inst.entryPoint.estimateGas
+      .handleOps(userOps, info.beneficiary, {})
+      .catch((e) => {
+        const data = e.error?.data?.data ?? e.error?.data;
+        if (data != null) {
+          const e1 =
+            GasCheckCollector.inst.entryPoint.interface.parseError(data);
+          throw new Error(`${e1.name}(${e1.args?.toString()})`);
+        }
+        throw e;
+      });
+    const ret = await GasCheckCollector.inst.entryPoint.handleOps(
+      userOps,
+      info.beneficiary,
+      { gasLimit: gasEst.mul(3).div(2) },
+    );
+    const rcpt = await ret.wait();
+    const gasUsed = rcpt.gasUsed.toNumber();
+    const countSuccessOps = rcpt.events?.filter(
+      (e) => e.event === "UserOperationEvent" && e.args?.success,
+    ).length;
+
+>>>>>>> Stashed changes
     rcpt.events
       ?.filter((e) =>
         e.event?.match(/PostOpRevertReason|UserOperationRevertReason/),
@@ -484,6 +716,9 @@ export class GasChecker {
           `${e.event}(${decodeRevertReason(e.args?.revertReason)})`,
         );
       });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     // check for failure with no revert reason (e.g. OOG)
     expect(countSuccessOps).to.eq(
@@ -491,6 +726,7 @@ export class GasChecker {
       "Some UserOps failed to execute (with no revert reason)",
     );
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     debug('count', info.count, 'gasUsed', gasUsed)
     const gasDiff = gasUsed - lastGasUsed
@@ -500,6 +736,116 @@ export class GasChecker {
     lastGasUsed = gasUsed
     debug('handleOps tx.hash=', rcpt.transactionHash)
 =======
+    console.debug("count", info.count, "gasUsed", gasUsed);
+    const gasDiff = gasUsed - lastGasUsed;
+    if (info.diffLastGas) {
+      console.debug("\tgas diff=", gasDiff);
+    }
+    lastGasUsed = gasUsed;
+    console.debug("handleOps tx.hash=", rcpt.transactionHash);
+>>>>>>> Stashed changes
+=======
+    console.debug("count", info.count, "gasUsed", gasUsed);
+    const gasDiff = gasUsed - lastGasUsed;
+    if (info.diffLastGas) {
+      console.debug("\tgas diff=", gasDiff);
+    }
+    lastGasUsed = gasUsed;
+    console.debug("handleOps tx.hash=", rcpt.transactionHash);
+>>>>>>> Stashed changes
+=======
+
+          // remove the "dest" from the key to the saved estimations
+          // so we have a single estimation per method.
+          const estimateGasKey = this.accountExec(
+            AddressZero,
+            destValue,
+            destCallData,
+          );
+
+          let est = gasEstimatePerExec[estimateGasKey];
+          // technically, each UserOp needs estimate - but we know they are all the same for each test.
+          if (est == null) {
+            const accountEst = (
+              await ethers.provider.estimateGas({
+                from: GasCheckCollector.inst.entryPoint.address,
+                to: account,
+                data: accountExecFromEntryPoint,
+              })
+            ).toNumber();
+            est = gasEstimatePerExec[estimateGasKey] = {
+              accountEst,
+              title: info.title,
+            };
+          }
+          // console.debug('== account est=', accountEst.toString())
+          accountEst = est.accountEst;
+          const op = await fillSignAndPack(
+            {
+              sender: account,
+              callData: accountExecFromEntryPoint,
+              maxPriorityFeePerGas: info.gasPrice,
+              maxFeePerGas: info.gasPrice,
+              callGasLimit: accountEst,
+              verificationGasLimit: 1000000,
+              paymaster: paymaster,
+              paymasterVerificationGasLimit: 50000,
+              paymasterPostOpGasLimit: 50000,
+              preVerificationGas: 1,
+            },
+            accountOwner,
+            GasCheckCollector.inst.entryPoint,
+          );
+          // const packed = packUserOp(op, false)
+          // console.log('== packed cost=', callDataCost(packed), packed)
+          return op;
+        }),
+    );
+
+    const txdata =
+      GasCheckCollector.inst.entryPoint.interface.encodeFunctionData(
+        "handleOps",
+        [userOps, info.beneficiary],
+      );
+    console.log("=== encoded data=", txdata.length);
+    const gasEst = await GasCheckCollector.inst.entryPoint.estimateGas
+      .handleOps(userOps, info.beneficiary, {})
+      .catch((e) => {
+        const data = e.error?.data?.data ?? e.error?.data;
+        if (data != null) {
+          const e1 =
+            GasCheckCollector.inst.entryPoint.interface.parseError(data);
+          throw new Error(`${e1.name}(${e1.args?.toString()})`);
+        }
+        throw e;
+      });
+    const ret = await GasCheckCollector.inst.entryPoint.handleOps(
+      userOps,
+      info.beneficiary,
+      { gasLimit: gasEst.mul(3).div(2) },
+    );
+    const rcpt = await ret.wait();
+    const gasUsed = rcpt.gasUsed.toNumber();
+    const countSuccessOps = rcpt.events?.filter(
+      (e) => e.event === "UserOperationEvent" && e.args?.success,
+    ).length;
+
+    rcpt.events
+      ?.filter((e) =>
+        e.event?.match(/PostOpRevertReason|UserOperationRevertReason/),
+      )
+      .find((e) => {
+        // console.log(e.event, e.args)
+        throw new Error(
+          `${e.event}(${decodeRevertReason(e.args?.revertReason)})`,
+        );
+      });
+    // check for failure with no revert reason (e.g. OOG)
+    expect(countSuccessOps).to.eq(
+      userOps.length,
+      "Some UserOps failed to execute (with no revert reason)",
+    );
+
     console.debug("count", info.count, "gasUsed", gasUsed);
     const gasDiff = gasUsed - lastGasUsed;
     if (info.diffLastGas) {
@@ -519,8 +865,18 @@ export class GasChecker {
       ret1.gasDiff = gasDiff;
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     debug(ret1)
     return ret1
+=======
+    console.debug(ret1);
+    return ret1;
+>>>>>>> Stashed changes
+=======
+    console.debug(ret1);
+    return ret1;
+>>>>>>> Stashed changes
 =======
     console.debug(ret1);
     return ret1;
@@ -557,6 +913,8 @@ export class GasCheckCollector {
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   async _init (entryPointAddressOrTest: string = 'test'): Promise<this> {
     debug('signer=', await globalSigner.getAddress())
     DefaultGasTestInfo.beneficiary = createAddress()
@@ -580,10 +938,48 @@ export class GasCheckCollector {
     if (entryPointAddressOrTest === "test") {
       this.entryPoint = await deployEntryPoint(provider);
     } else {
+=======
+  async _init(entryPointAddressOrTest: string = "test"): Promise<this> {
+    console.log("signer=", await ethersSigner.getAddress());
+    DefaultGasTestInfo.beneficiary = createAddress();
+
+    const bal = await getBalance(ethersSigner.getAddress());
+    if (bal.gt(parseEther("100000000"))) {
+      console.log("DONT use geth miner.. use account 2 instead");
+      await checkForGeth();
+      ethersSigner = ethers.provider.getSigner(2);
+    }
+
+    if (entryPointAddressOrTest === "test") {
+      this.entryPoint = await deployEntryPoint(provider);
+    } else {
+>>>>>>> Stashed changes
+=======
+  async _init(entryPointAddressOrTest: string = "test"): Promise<this> {
+    console.log("signer=", await ethersSigner.getAddress());
+    DefaultGasTestInfo.beneficiary = createAddress();
+
+    const bal = await getBalance(ethersSigner.getAddress());
+    if (bal.gt(parseEther("100000000"))) {
+      console.log("DONT use geth miner.. use account 2 instead");
+      await checkForGeth();
+      ethersSigner = ethers.provider.getSigner(2);
+    }
+
+    if (entryPointAddressOrTest === "test") {
+      this.entryPoint = await deployEntryPoint(provider);
+    } else {
+>>>>>>> Stashed changes
       this.entryPoint = EntryPoint__factory.connect(
         entryPointAddressOrTest,
         ethersSigner,
       );
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 
@@ -609,8 +1005,18 @@ export class GasCheckCollector {
    * (we stream the table, so can't learn the content length)
    */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   initTable (tableHeaders: string[]): void {
     debug('inittable')
+=======
+  initTable(tableHeaders: string[]): void {
+    console.log("inittable");
+>>>>>>> Stashed changes
+=======
+  initTable(tableHeaders: string[]): void {
+    console.log("inittable");
+>>>>>>> Stashed changes
 =======
   initTable(tableHeaders: string[]): void {
     console.log("inittable");

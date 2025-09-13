@@ -81,15 +81,27 @@ export class Create2Factory {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     await this.signer.sendTransaction({ ...deployTx, gasLimit }).then(async tx => tx.wait())
 
     if (await this.provider.getCode(addr).then(code => code.length) === 2) {
       throw new Error('failed to deploy')
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     const ret = await this.signer.sendTransaction({ ...deployTx, gasLimit });
     await ret.wait();
     if ((await this.provider.getCode(addr).then((code) => code.length)) === 2) {
       throw new Error("failed to deploy");
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
     return addr;
@@ -133,6 +145,8 @@ export class Create2Factory {
     await (signer ?? this.signer).sendTransaction({
       to: Create2Factory.factoryDeployer,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
       value: BigNumber.from(Create2Factory.factoryDeploymentFee)
     })
     // (with latest geth, can't tx.wait on the very first tx: reverts with "transaction indexing is in progress")
@@ -143,11 +157,21 @@ export class Create2Factory {
     if (!await this._isFactoryDeployed()) {
       throw new Error('fatal: failed to deploy deterministic deployer')
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
       value: BigNumber.from(Create2Factory.factoryDeploymentFee),
     });
     await this.provider.sendTransaction(Create2Factory.factoryTx);
     if (!(await this._isFactoryDeployed())) {
       throw new Error("fatal: failed to deploy deterministic deployer");
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
   }

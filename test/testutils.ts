@@ -1,6 +1,14 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { ethers } from 'hardhat'
 import { toHex } from 'hardhat/internal/util/bigint'
+=======
+import { ethers } from "hardhat";
+>>>>>>> Stashed changes
+=======
+import { ethers } from "hardhat";
+>>>>>>> Stashed changes
 =======
 import { ethers } from "hardhat";
 >>>>>>> Stashed changes
@@ -30,6 +38,8 @@ import {
   SimpleAccountFactory__factory,
   SimpleAccount__factory,
   SimpleAccountFactory,
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   TestAggregatedAccountFactory, TestPaymasterRevertCustomError__factory, TestERC20__factory
 } from '../typechain'
@@ -65,6 +75,48 @@ export const FIVE_ETH = parseEther("5");
 
 export const tostr = (x: any): string => (x != null ? x.toString() : "null");
 
+=======
+  TestAggregatedAccountFactory,
+  TestPaymasterRevertCustomError__factory,
+  TestERC20__factory,
+} from "../typechain";
+import { BytesLike, Hexable } from "@ethersproject/bytes";
+import { expect } from "chai";
+import { Create2Factory } from "../src/Create2Factory";
+import { debugTransaction } from "./debugTx";
+import { UserOperation } from "./UserOperation";
+import { packUserOp, simulateValidation } from "./UserOp";
+
+export const AddressZero = ethers.constants.AddressZero;
+export const HashZero = ethers.constants.HashZero;
+export const ONE_ETH = parseEther("1");
+export const TWO_ETH = parseEther("2");
+export const FIVE_ETH = parseEther("5");
+
+export const tostr = (x: any): string => (x != null ? x.toString() : "null");
+
+>>>>>>> Stashed changes
+=======
+  TestAggregatedAccountFactory,
+  TestPaymasterRevertCustomError__factory,
+  TestERC20__factory,
+} from "../typechain";
+import { BytesLike, Hexable } from "@ethersproject/bytes";
+import { expect } from "chai";
+import { Create2Factory } from "../src/Create2Factory";
+import { debugTransaction } from "./debugTx";
+import { UserOperation } from "./UserOperation";
+import { packUserOp, simulateValidation } from "./UserOp";
+
+export const AddressZero = ethers.constants.AddressZero;
+export const HashZero = ethers.constants.HashZero;
+export const ONE_ETH = parseEther("1");
+export const TWO_ETH = parseEther("2");
+export const FIVE_ETH = parseEther("5");
+
+export const tostr = (x: any): string => (x != null ? x.toString() : "null");
+
+>>>>>>> Stashed changes
 export function tonumber(x: any): number {
   try {
     return parseFloat(x.toString());
@@ -107,15 +159,27 @@ let counter = 0;
 
 // create non-random account, so gas calculations are deterministic
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export function createAccountOwner (provider: Provider = ethers.provider): Wallet {
   const privateKey = keccak256(Buffer.from(arrayify(BigNumber.from(++counter))))
   return new ethers.Wallet(privateKey, provider)
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 export function createAccountOwner(): Wallet {
   const privateKey = keccak256(
     Buffer.from(arrayify(BigNumber.from(++counter))),
   );
   return new ethers.Wallet(privateKey, ethers.provider);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   // return new ethers.Wallet('0x'.padEnd(66, privkeyBase), ethers.provider);
 }
@@ -132,6 +196,8 @@ export function callDataCost(data: string): number {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export async function calcGasUsage (rcpt: ContractReceipt, entryPoint: EntryPoint, beneficiaryAddress?: string): Promise<{ actualGasCost: BigNumber }> {
   const actualGas = await rcpt.gasUsed
   const logs = await entryPoint.queryFilter(entryPoint.filters.UserOperationEvent(), rcpt.blockHash)
@@ -141,6 +207,10 @@ export async function calcGasUsage (rcpt: ContractReceipt, entryPoint: EntryPoin
   const tx = await ethers.provider.getTransaction(rcpt.transactionHash)
   console.log('\t== gasDiff', actualGas.toNumber() - actualGasUsed.toNumber() - callDataCost(tx.data))
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 export async function calcGasUsage(
   rcpt: ContractReceipt,
   entryPoint: EntryPoint,
@@ -159,6 +229,12 @@ export async function calcGasUsage(
     "\t== gasDiff",
     actualGas.toNumber() - actualGasUsed.toNumber() - callDataCost(tx.data),
   );
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   if (beneficiaryAddress != null) {
     expect(await getBalance(beneficiaryAddress)).to.eq(
@@ -310,6 +386,8 @@ export async function checkForGeth(): Promise<void> {
   currentNode = await provider.request({ method: "web3_clientVersion" });
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   debug('node version:', currentNode)
   // NOTE: must run geth with params:
   // --http.api personal,eth,net,web3
@@ -322,6 +400,10 @@ export async function checkForGeth(): Promise<void> {
   //   }
   // }
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   console.log("node version:", currentNode);
   // NOTE: must run geth with params:
   // --http.api personal,eth,net,web3
@@ -404,11 +486,17 @@ export async function checkForBannedOps(
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export async function deployEntryPoint (provider = ethers.provider): Promise<EntryPoint> {
   const create2factory = new Create2Factory(provider)
   const addr = toChecksumAddress(await create2factory.deploy(EntryPoint__factory.bytecode, process.env.SALT, process.env.COVERAGE != null ? 20e6 : 8e6))
   return EntryPoint__factory.connect(addr, provider.getSigner())
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 export async function deployEntryPoint(
   provider = ethers.provider,
 ): Promise<EntryPoint> {
@@ -419,6 +507,12 @@ export async function deployEntryPoint(
     process.env.COVERAGE != null ? 20e6 : 8e6,
   );
   return EntryPoint__factory.connect(addr, provider.getSigner());
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -432,6 +526,8 @@ export async function createAccount(
   ethersSigner: Signer,
   accountOwner: string,
   entryPoint: string,
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   _factory?: SimpleAccountFactory
 ):
@@ -450,6 +546,10 @@ export async function createAccount(
   const accountAddress = await accountFactory.getAddress(accountOwner, 0)
   const proxy = SimpleAccount__factory.connect(accountAddress, ethersSigner)
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   _factory?: SimpleAccountFactory,
 ): Promise<{
   proxy: SimpleAccount;
@@ -463,6 +563,12 @@ export async function createAccount(
   await accountFactory.createAccount(accountOwner, 0);
   const accountAddress = await accountFactory.getAddress(accountOwner, 0);
   const proxy = SimpleAccount__factory.connect(accountAddress, ethersSigner);
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   return {
     implementation,
@@ -503,10 +609,16 @@ export function unpackAccountGasLimits(accountGasLimits: string): {
     verificationGasLimit: parseInt(accountGasLimits.slice(2, 34), 16),
     callGasLimit: parseInt(accountGasLimits.slice(34), 16),
   };
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 
 export function unpackAccountGasFees (accountGasFees: string): { maxPriorityFeePerGas: number, maxFeePerGas: number } {
   return { maxPriorityFeePerGas: parseInt(accountGasFees.slice(2, 34), 16), maxFeePerGas: parseInt(accountGasFees.slice(34), 16) }
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 }
 
 export interface ValidationData {
@@ -656,6 +768,8 @@ export async function findSimulationUserOpWithMin(
     max,
     delta,
   );
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 
 // call entryPoint.getUserOpHash, but use state-override to run it with specific code (e.g. eip-7702 delegate) on the sender's code.
@@ -673,4 +787,8 @@ export async function callGetUserOpHashWithCode (entryPoint: EntryPoint, userop:
       data: entryPoint.interface.encodeFunctionData('getUserOpHash', [packUserOp(userop)])
     }, 'latest', stateOverride
   ])
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 }

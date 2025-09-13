@@ -22,15 +22,27 @@ import {
   getAccountAddress,
   getAccountInitCode,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   getBalance, deployEntryPoint, decodeRevertReason, findSimulationUserOpWithMin
 } from './testutils'
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   getBalance,
   deployEntryPoint,
   decodeRevertReason,
   findSimulationUserOpWithMin,
   findUserOpWithMin,
 } from "./testutils";
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 import {
@@ -83,6 +95,8 @@ describe("EntryPointSimulations", function () {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     function costInRange (simCost: BigNumber, epCost: BigNumber, message: string): void {
       const diff = simCost.sub(epCost).toNumber()
       const max = 350
@@ -90,6 +104,10 @@ describe("EntryPointSimulations", function () {
       expect(diff).to.be.within(0, max,
         `${message} cost ${simCost.toNumber()} should be (up to ${max}) above ep cost ${epCost.toNumber()}`)
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     function costInRange(
       simCost: BigNumber,
       epCost: BigNumber,
@@ -102,6 +120,12 @@ describe("EntryPointSimulations", function () {
         max,
         `${message} cost ${simCost.toNumber()} should be (up to ${max}) above ep cost ${epCost.toNumber()}`,
       );
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
     it("deposit on simulation must be >= real entrypoint", async () => {
@@ -357,6 +381,8 @@ describe("EntryPointSimulations", function () {
     it("should not call initCode from entrypoint", async () => {
       // a possible attack: call an account's execFromEntryPoint through initCode. This might lead to stolen funds.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
       const { proxy: account } = await createAccount(ethersSigner, await accountOwner.getAddress(), entryPoint.address)
       const sender = createAddress()
       const op1 = await fillSignAndPack({
@@ -455,6 +481,58 @@ describe("EntryPointSimulations", function () {
     });
   });
 
+=======
+      const { proxy: account } = await createAccount(
+        ethersSigner,
+        await accountOwner.getAddress(),
+        entryPoint.address,
+      );
+      const sender = createAddress();
+      const op1 = await fillSignAndPack(
+        {
+          initCode: hexConcat([
+            account.address,
+            account.interface.encodeFunctionData("execute", [sender, 0, "0x"]),
+          ]),
+          sender,
+        },
+        accountOwner,
+        entryPoint,
+      );
+      const error = await simulateValidation(op1, entryPoint.address).catch(
+        (e) => e,
+      );
+      expect(error.message).to.match(/initCode failed or OOG/, error);
+    });
+  });
+
+>>>>>>> Stashed changes
+=======
+      const { proxy: account } = await createAccount(
+        ethersSigner,
+        await accountOwner.getAddress(),
+        entryPoint.address,
+      );
+      const sender = createAddress();
+      const op1 = await fillSignAndPack(
+        {
+          initCode: hexConcat([
+            account.address,
+            account.interface.encodeFunctionData("execute", [sender, 0, "0x"]),
+          ]),
+          sender,
+        },
+        accountOwner,
+        entryPoint,
+      );
+      const error = await simulateValidation(op1, entryPoint.address).catch(
+        (e) => e,
+      );
+      expect(error.message).to.match(/initCode failed or OOG/, error);
+    });
+  });
+
+>>>>>>> Stashed changes
   describe("over-validation test", () => {
     // coverage skews gas checks.
     if (process.env.COVERAGE != null) {
@@ -582,6 +660,12 @@ describe("EntryPointSimulations", function () {
       ).to.match(/AA36/);
     });
   });
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   describe("#simulateHandleOp", () => {

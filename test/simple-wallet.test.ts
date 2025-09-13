@@ -1,9 +1,21 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { Wallet } from 'ethers'
 import { ethers } from 'hardhat'
 import { expect } from 'chai'
 import { toHex } from 'hardhat/internal/util/bigint'
 
+=======
+import { Wallet } from "ethers";
+import { ethers } from "hardhat";
+import { expect } from "chai";
+>>>>>>> Stashed changes
+=======
+import { Wallet } from "ethers";
+import { ethers } from "hardhat";
+import { expect } from "chai";
+>>>>>>> Stashed changes
 =======
 import { Wallet } from "ethers";
 import { ethers } from "hardhat";
@@ -23,6 +35,8 @@ import {
 import {
   HashZero,
   ONE_ETH,
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   createAccount,
   createAccountOwner,
@@ -89,6 +103,37 @@ describe("SimpleAccount", function () {
       .to.be.revertedWith('account: not Owner or EntryPoint')
   })
 =======
+=======
+  HashZero,
+  deployEntryPoint,
+} from "./testutils";
+import {
+  fillUserOpDefaults,
+  getUserOpHash,
+  encodeUserOp,
+  signUserOp,
+  packUserOp,
+} from "./UserOp";
+import { parseEther } from "ethers/lib/utils";
+import { UserOperation } from "./UserOperation";
+
+describe("SimpleAccount", function () {
+  let entryPoint: string;
+  let accounts: string[];
+  let testUtil: TestUtil;
+  let accountOwner: Wallet;
+  const ethersSigner = ethers.provider.getSigner();
+
+  before(async function () {
+    entryPoint = await deployEntryPoint().then((e) => e.address);
+    accounts = await ethers.provider.listAccounts();
+    // ignore in geth.. this is just a sanity test. should be refactored to use a single-account mode..
+    if (accounts.length < 2) this.skip();
+    testUtil = await new TestUtil__factory(ethersSigner).deploy();
+    accountOwner = createAccountOwner();
+  });
+
+>>>>>>> Stashed changes
   it("owner should be able to call transfer", async () => {
     const { proxy: account } = await createAccount(
       ethers.provider.getSigner(),
@@ -114,6 +159,9 @@ describe("SimpleAccount", function () {
         .execute(accounts[2], ONE_ETH, "0x"),
     ).to.be.revertedWith("account: not Owner or EntryPoint");
   });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   it("should pack in js the same as solidity", async () => {
@@ -123,10 +171,76 @@ describe("SimpleAccount", function () {
     expect(await testUtil.encodeUserOp(packed)).to.equal(encoded);
   });
 
+=======
+  HashZero,
+  deployEntryPoint,
+} from "./testutils";
+import {
+  fillUserOpDefaults,
+  getUserOpHash,
+  encodeUserOp,
+  signUserOp,
+  packUserOp,
+} from "./UserOp";
+import { parseEther } from "ethers/lib/utils";
+import { UserOperation } from "./UserOperation";
+
+describe("SimpleAccount", function () {
+  let entryPoint: string;
+  let accounts: string[];
+  let testUtil: TestUtil;
+  let accountOwner: Wallet;
+  const ethersSigner = ethers.provider.getSigner();
+
+  before(async function () {
+    entryPoint = await deployEntryPoint().then((e) => e.address);
+    accounts = await ethers.provider.listAccounts();
+    // ignore in geth.. this is just a sanity test. should be refactored to use a single-account mode..
+    if (accounts.length < 2) this.skip();
+    testUtil = await new TestUtil__factory(ethersSigner).deploy();
+    accountOwner = createAccountOwner();
+  });
+
+  it("owner should be able to call transfer", async () => {
+    const { proxy: account } = await createAccount(
+      ethers.provider.getSigner(),
+      accounts[0],
+      entryPoint,
+    );
+    await ethersSigner.sendTransaction({
+      from: accounts[0],
+      to: account.address,
+      value: parseEther("2"),
+    });
+    await account.execute(accounts[2], ONE_ETH, "0x");
+  });
+  it("other account should not be able to call transfer", async () => {
+    const { proxy: account } = await createAccount(
+      ethers.provider.getSigner(),
+      accounts[0],
+      entryPoint,
+    );
+    await expect(
+      account
+        .connect(ethers.provider.getSigner(1))
+        .execute(accounts[2], ONE_ETH, "0x"),
+    ).to.be.revertedWith("account: not Owner or EntryPoint");
+  });
+
+  it("should pack in js the same as solidity", async () => {
+    const op = await fillUserOpDefaults({ sender: accounts[0] });
+    const encoded = encodeUserOp(op);
+    const packed = packUserOp(op);
+    expect(await testUtil.encodeUserOp(packed)).to.equal(encoded);
+  });
+
+>>>>>>> Stashed changes
   describe("#executeBatch", () => {
     let account: SimpleAccount;
     let counter: TestCounter;
     before(async () => {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
       ({ proxy: account } = await createAccount(ethersSigner, await ethersSigner.getAddress(), entryPoint.address))
       counter = await new TestCounter__factory(ethersSigner).deploy()
@@ -219,6 +333,154 @@ describe("SimpleAccount", function () {
     let preBalance: number;
     let expectedPay: number;
 
+=======
+      ({ proxy: account } = await createAccount(
+        ethersSigner,
+        await ethersSigner.getAddress(),
+        entryPoint,
+      ));
+      counter = await new TestCounter__factory(ethersSigner).deploy();
+    });
+
+    it("should allow zero value array", async () => {
+      const counterJustEmit = await counter.populateTransaction
+        .justemit()
+        .then((tx) => tx.data!);
+      const rcpt = await account
+        .executeBatch(
+          [counter.address, counter.address],
+          [],
+          [counterJustEmit, counterJustEmit],
+        )
+        .then(async (t) => await t.wait());
+      const targetLogs = await counter.queryFilter(
+        counter.filters.CalledFrom(),
+        rcpt.blockHash,
+      );
+      expect(targetLogs.length).to.eq(2);
+    });
+
+    it("should allow transfer value", async () => {
+      const counterJustEmit = await counter.populateTransaction
+        .justemit()
+        .then((tx) => tx.data!);
+      const target = createAddress();
+      await ethersSigner.sendTransaction({
+        from: accounts[0],
+        to: account.address,
+        value: parseEther("2"),
+      });
+      const rcpt = await account
+        .executeBatch(
+          [target, counter.address],
+          [ONE_ETH, 0],
+          ["0x", counterJustEmit],
+        )
+        .then(async (t) => await t.wait());
+      expect(await ethers.provider.getBalance(target)).to.equal(ONE_ETH);
+      const targetLogs = await counter.queryFilter(
+        counter.filters.CalledFrom(),
+        rcpt.blockHash,
+      );
+      expect(targetLogs.length).to.eq(1);
+    });
+
+    it("should fail with wrong array length", async () => {
+      const counterJustEmit = await counter.populateTransaction
+        .justemit()
+        .then((tx) => tx.data!);
+      await expect(
+        account.executeBatch(
+          [counter.address, counter.address],
+          [0],
+          [counterJustEmit, counterJustEmit],
+        ),
+      ).to.be.revertedWith("wrong array lengths");
+    });
+  });
+
+  describe("#validateUserOp", () => {
+    let account: SimpleAccount;
+    let userOp: UserOperation;
+    let userOpHash: string;
+    let preBalance: number;
+    let expectedPay: number;
+
+>>>>>>> Stashed changes
+=======
+      ({ proxy: account } = await createAccount(
+        ethersSigner,
+        await ethersSigner.getAddress(),
+        entryPoint,
+      ));
+      counter = await new TestCounter__factory(ethersSigner).deploy();
+    });
+
+    it("should allow zero value array", async () => {
+      const counterJustEmit = await counter.populateTransaction
+        .justemit()
+        .then((tx) => tx.data!);
+      const rcpt = await account
+        .executeBatch(
+          [counter.address, counter.address],
+          [],
+          [counterJustEmit, counterJustEmit],
+        )
+        .then(async (t) => await t.wait());
+      const targetLogs = await counter.queryFilter(
+        counter.filters.CalledFrom(),
+        rcpt.blockHash,
+      );
+      expect(targetLogs.length).to.eq(2);
+    });
+
+    it("should allow transfer value", async () => {
+      const counterJustEmit = await counter.populateTransaction
+        .justemit()
+        .then((tx) => tx.data!);
+      const target = createAddress();
+      await ethersSigner.sendTransaction({
+        from: accounts[0],
+        to: account.address,
+        value: parseEther("2"),
+      });
+      const rcpt = await account
+        .executeBatch(
+          [target, counter.address],
+          [ONE_ETH, 0],
+          ["0x", counterJustEmit],
+        )
+        .then(async (t) => await t.wait());
+      expect(await ethers.provider.getBalance(target)).to.equal(ONE_ETH);
+      const targetLogs = await counter.queryFilter(
+        counter.filters.CalledFrom(),
+        rcpt.blockHash,
+      );
+      expect(targetLogs.length).to.eq(1);
+    });
+
+    it("should fail with wrong array length", async () => {
+      const counterJustEmit = await counter.populateTransaction
+        .justemit()
+        .then((tx) => tx.data!);
+      await expect(
+        account.executeBatch(
+          [counter.address, counter.address],
+          [0],
+          [counterJustEmit, counterJustEmit],
+        ),
+      ).to.be.revertedWith("wrong array lengths");
+    });
+  });
+
+  describe("#validateUserOp", () => {
+    let account: SimpleAccount;
+    let userOp: UserOperation;
+    let userOpHash: string;
+    let preBalance: number;
+    let expectedPay: number;
+
+>>>>>>> Stashed changes
     const actualGasPrice = 1e9;
     // for testing directly validateUserOp, we initialize the account with EOA as entryPoint.
     let entryPointEoa: string;
@@ -294,6 +556,8 @@ describe("SimpleAccount", function () {
   });
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   context('SimpleAccountFactory', () => {
     it('should reject calls coming from any address that is not SenderCreator', async () => {
       const ownerAddr = createAddress()
@@ -315,6 +579,10 @@ describe("SimpleAccount", function () {
   })
 })
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   context("SimpleAccountFactory", () => {
     it("sanity: check deployer", async () => {
       const ownerAddr = createAddress();
@@ -328,4 +596,10 @@ describe("SimpleAccount", function () {
     });
   });
 });
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

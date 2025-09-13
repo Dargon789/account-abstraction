@@ -143,8 +143,18 @@ let sending = false;
 const IDLE_TIME = 5000;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 // when reaching this threshold, don't wait anymore and send a bundle
 const BUNDLE_SIZE_IMMEDIATE = 3
+=======
+// when reaching this theshold, don't wait anymore and send a bundle
+const BUNDLE_SIZE_IMMEDIATE = 3;
+>>>>>>> Stashed changes
+=======
+// when reaching this theshold, don't wait anymore and send a bundle
+const BUNDLE_SIZE_IMMEDIATE = 3;
+>>>>>>> Stashed changes
 =======
 // when reaching this theshold, don't wait anymore and send a bundle
 const BUNDLE_SIZE_IMMEDIATE = 3;
