@@ -35,7 +35,7 @@
     "@typescript-eslint/parser": "^5.30.5",
     "@uniswap/v3-periphery": "^1.4.3",
     "chai": "^4.3.4",
-    "eslint": "^8.19.0",
+    "eslint": "^9.0.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
@@ -63,7 +63,7 @@
     "depcheck": "^1.4.7",
     "ethereumjs-util": "^7.1.0",
     "hardhat-deploy": "^0.11.23",
-    "mocha": "10.2.0",
+    "mocha": "10.6.0",
     "solidity-coverage": "^0.8.14",
     "table": "^6.8.0",
     "typescript": "^4.3.5"
